@@ -1,10 +1,10 @@
+import model.RowBlockModel;
+import model.RowGameModel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-import model.RowBlockModel;
-import model.RowGameModel;
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -12,10 +12,12 @@ import model.RowGameModel;
  */
 public class TestExample {
     private RowGameModel gameModel;
-
+    private int row, col;
     @Before
     public void setUp() {
-	gameModel = new RowGameModel();
+        row = 3;
+        col = 3;
+	    gameModel = new RowGameModel(row,col);
     }
 
     @After
@@ -26,7 +28,7 @@ public class TestExample {
     @Test
     public void testNewGame() {
         assertEquals ("1", gameModel.getPlayer());
-        assertEquals (9, gameModel.getMovesLeft());
+        assertEquals (row * col , gameModel.getMovesLeft());
     }
 
     @Test(expected = IllegalArgumentException.class)

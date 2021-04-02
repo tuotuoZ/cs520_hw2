@@ -1,11 +1,14 @@
 package model;
 
 
-public class RowGameModel 
+import view.RowGameGUI;
+
+public class RowGameModel
 {
     public static final String GAME_END_NOWINNER = "Game ends in a draw";
 
-    public RowBlockModel[][] blocksData = new RowBlockModel[3][3];
+    public RowBlockModel[][] blocksData;
+    private RowGameGUI view;
 
     /**
      * The current player taking their turn
@@ -21,16 +24,32 @@ public class RowGameModel
 
     private String finalResult = null;
 
+    // New fields for the nXm feature
+    private final int dimRow, dimCol;
 
-    public RowGameModel() {
+    public RowGameModel(int inputRow, int inputCol) {
         super();
-
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                blocksData[row][col] = new RowBlockModel(this);
-            } // end for col
-        } // end for row
+        dimRow = inputRow;
+        dimCol = inputCol;
+        // New update for the nXm grid.
+        blocksData =  new RowBlockModel[dimRow][dimCol];
+        movesLeft = dimRow * dimCol;
+        // Initialize a JButton for each cell of the 3x3 game board.
+        for(int row = 0; row<dimRow; row++) {
+            for(int column = 0; column<dimCol ;column++) {
+                blocksData[row][column] = new RowBlockModel(this);
+            }
+        }
     }
+
+    public RowBlockModel[][] getBlocksData(){
+        return blocksData;
+    }
+
+    public void setBlocksData(int row, int col, String content){
+
+    }
+
 
     // public method to access private fields
     public String getPlayer(){
@@ -53,16 +72,22 @@ public class RowGameModel
     }
     public void resetGame(){
         player = PLAYER1;
-        movesLeft = 9;
+        movesLeft = dimRow * dimCol;
         setFinalResult(null);
     }
 
+    public boolean isPlayerOneTurn(){
+        return (((dimRow*dimCol) - movesLeft) % 2 == 0);
+    }
 
     public String getFinalResult() {
 	return this.finalResult;
     }
 
     public void setFinalResult(String finalResult) {
-	this.finalResult = finalResult;
+	    this.finalResult = finalResult;
     }
+
+
+
 }

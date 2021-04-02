@@ -1,16 +1,17 @@
 package view;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.*;
-import java.awt.event.*;
-
-import model.RowGameModel;
 import controller.RowGameController;
+import model.RowGameModel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 
-public class RowGameGUI implements RowGameView
+public class RowGameGUI implements RowGameView, PropertyChangeListener
 {
     public JFrame gui = new JFrame("Three in a Row");
     public RowGameBoardView gameBoardView;
@@ -23,31 +24,34 @@ public class RowGameGUI implements RowGameView
     /**
      * Creates a new game initializing the GUI.
      */
-    public RowGameGUI(RowGameController gameController) {
-	this.gameController = gameController;
-	
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gui.setSize(new Dimension(500, 350));
-        gui.setResizable(true);
+    public RowGameGUI(RowGameController gameController, int inputRow, int inputCol) {
+        int dimRow, dimCol;
+        dimRow = inputRow;
+        dimCol = inputCol;
+        this.gameController = gameController;
 
-	gameBoardView = new RowGameBoardView(this.gameController);
-        JPanel gamePanel = gameBoardView.gamePanel;
+            gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            gui.setSize(new Dimension(dimCol*150, dimRow*115));
+            gui.setResizable(true);
 
-        JPanel options = new JPanel(new FlowLayout());
-        options.add(reset);
+        gameBoardView = new RowGameBoardView(this.gameController, inputRow, inputCol);
+            JPanel gamePanel = gameBoardView.gamePanel;
 
-	gameStatusView = new RowGameStatusView(this.gameController);
-        JPanel messages = gameStatusView.messages;
+            JPanel options = new JPanel(new FlowLayout());
+            options.add(reset);
 
-        gui.add(gamePanel, BorderLayout.NORTH);
-        gui.add(options, BorderLayout.CENTER);
-        gui.add(messages, BorderLayout.SOUTH);
+        gameStatusView = new RowGameStatusView(this.gameController);
+            JPanel messages = gameStatusView.messages;
 
-        reset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                gameController.resetGame();
-            }
-        });
+            gui.add(gamePanel, BorderLayout.NORTH);
+            gui.add(options, BorderLayout.CENTER);
+            gui.add(messages, BorderLayout.SOUTH);
+
+            reset.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    gameController.resetGame();
+                }
+            });
     }
 
     /**
@@ -60,5 +64,10 @@ public class RowGameGUI implements RowGameView
 	gameBoardView.update(gameModel);
 
 	gameStatusView.update(gameModel);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        update((RowGameModel) evt.getSource());
     }
 }
