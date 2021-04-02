@@ -16,6 +16,9 @@ public class RowBlockModel
      */
     private String contents;
 
+
+
+
     /**
      * Whether or not it is currently legal to move into this block
      */
@@ -49,10 +52,12 @@ public class RowBlockModel
      * @throws IllegalArgumentException When the given value is null
      */
     public void setContents(String value) {
-	if (value == null) {
-	    throw new IllegalArgumentException("The value must be non-null.");
-	}
-	this.contents = value;
+        if (value == null) {
+            throw new IllegalArgumentException("The value must be non-null.");
+        }
+        String oldValue = this.contents;
+        this.contents = value;
+
     }
 
     /**
@@ -65,7 +70,9 @@ public class RowBlockModel
     }
 
     public void setIsLegalMove(boolean isLegalMove) {
-	this.isLegalMove = isLegalMove;
+	    boolean oldValue = this.isLegalMove;
+        this.isLegalMove = isLegalMove;
+
     }
 
     public boolean getIsLegalMove() {
@@ -76,7 +83,11 @@ public class RowBlockModel
      * Resets this block before starting a new game.
      */
     public void reset() {
-	this.contents = "";
-	this.isLegalMove = false;
+        this.contents = "";
+        this.isLegalMove = false;
+
     }
+
+
+
 }

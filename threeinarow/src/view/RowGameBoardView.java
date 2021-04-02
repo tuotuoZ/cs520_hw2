@@ -61,8 +61,10 @@ public class RowGameBoardView implements RowGameView
      * @param row The row that contains the block
      * @param col The column that contains the block
      */
-    protected void updateBlock(RowGameModel gameModel, int row, int col) {
+    public void updateBlock(RowGameModel gameModel, int row, int col) {
 	blocks[row][col].setText(gameModel.blocksData[row][col].getContents());
 	blocks[row][col].setEnabled(gameModel.blocksData[row][col].getIsLegalMove());	
     }
+
+
 }

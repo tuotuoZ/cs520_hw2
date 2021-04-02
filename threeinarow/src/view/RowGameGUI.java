@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 
+
 public class RowGameGUI implements RowGameView, PropertyChangeListener
 {
     public JFrame gui = new JFrame("Three in a Row");
@@ -61,10 +62,12 @@ public class RowGameGUI implements RowGameView, PropertyChangeListener
      * @param gameModel The current game model
      */
     public void update(RowGameModel gameModel) {
-	gameBoardView.update(gameModel);
+        gameBoardView.update(gameModel);
 
-	gameStatusView.update(gameModel);
+        gameStatusView.update(gameModel);
+
     }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

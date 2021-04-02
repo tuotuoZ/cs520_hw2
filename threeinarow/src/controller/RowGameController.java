@@ -27,8 +27,9 @@ public class RowGameController {
     	dimCol = 6;
 		gameModel = new RowGameModel(dimRow,dimCol);
 		gameView = new RowGameGUI(this, dimRow, dimCol);
-
+		gameModel.addPropertyChangeListener(gameView);
 		resetGame();
+
     }
 
     public RowGameModel getModel() {
@@ -246,7 +247,7 @@ public class RowGameController {
 		// Update the player string
 		gameModel.changePlayer();
 
-		gameView.update(gameModel);
+		//gameView.update(gameModel);
 	}
 
 
@@ -261,7 +262,7 @@ public class RowGameController {
 			}
 		}
 
-		gameView.update(gameModel);
+		//gameView.update(gameModel);
     }
 
     /**
@@ -277,7 +278,7 @@ public class RowGameController {
         }
         gameModel.resetGame();
 
-		gameView.update(gameModel);
+		//gameView.update(gameModel);
     }
 }
 

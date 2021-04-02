@@ -3,6 +3,9 @@ package model;
 
 import view.RowGameGUI;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public class RowGameModel
 {
     public static final String GAME_END_NOWINNER = "Game ends in a draw";
@@ -10,6 +13,7 @@ public class RowGameModel
     public RowBlockModel[][] blocksData;
     private RowGameGUI view;
 
+    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
     /**
      * The current player taking their turn
      */
@@ -38,17 +42,12 @@ public class RowGameModel
         for(int row = 0; row<dimRow; row++) {
             for(int column = 0; column<dimCol ;column++) {
                 blocksData[row][column] = new RowBlockModel(this);
+                changes.firePropertyChange();
             }
         }
-    }
-
-    public RowBlockModel[][] getBlocksData(){
-        return blocksData;
-    }
-
-    public void setBlocksData(int row, int col, String content){
 
     }
+
 
 
     // public method to access private fields
@@ -62,6 +61,7 @@ public class RowGameModel
         }else{
             player = PLAYER1;
         }
+        changes.firePropertyChange("player", "old", player);
     }
 
     public void decreaseMove(){
@@ -86,6 +86,13 @@ public class RowGameModel
 
     public void setFinalResult(String finalResult) {
 	    this.finalResult = finalResult;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        changes.addPropertyChangeListener(l);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        changes.removePropertyChangeListener(l);
     }
 
 
